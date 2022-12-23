@@ -1,0 +1,61 @@
+.form {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    margin: 6%;
+    width: 50%;
+    justify-content: center;
+
+    border: solid;
+    border-color: #d5b708;
+    border-radius: 2%;
+    padding: 1%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("./bg.jpg");
+    background-size: cover;
+
+}
+
+.input {
+    width: 100%;
+    margin-bottom: 3%;
+    margin-top: 1%;
+}
+
+.time {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+}
+
+.button {
+    align-self: center;
+    font-size: 14px;
+    margin: 5%;
+    padding: 2%;
+
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
+
+.form {
+    width: 30%;
+
+}
