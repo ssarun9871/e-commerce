@@ -8,6 +8,6 @@ const productsController = require('../controllers/products');
 router.get('/add-product',productsController.getAddProduct);
 
 //product route (localhost:3000/admin/product),  but it handle post request so it can't be accessible through URL
-router.post('/product',productsController.postAddProduct);
+router.post('/add-product',productsController.postAddProduct);
 
 module.exports=router;

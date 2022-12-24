@@ -34,3 +34,8 @@ button:active {
     background-color: #3e00a1;
     color: white;
 }
+
+
+body{
+    overflow: scroll;
+}

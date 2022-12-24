@@ -1,4 +1,4 @@
-const products = [];
+const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
     res.render('add-product', {
@@ -10,12 +10,15 @@ exports.getAddProduct = (req, res, next) => {
     });
   }
 
+  //this controller will create a new object and store it in an array present in models>product.js
   exports.postAddProduct = (req,res,next)=>{
-    products.push({ title: req.body.title });
+    const product = new Product(req.body.title);//this title is fetched from the add-product.ejs form
+    product.save();
     res.redirect('/');
 }
 
  exports.getProducts=(req, res, next) => {
+  Product.fetchAll(products => {
     res.render('shop', {
       prods: products,
       pageTitle: 'Shop',
@@ -24,4 +27,5 @@ exports.getAddProduct = (req, res, next) => {
       activeShop: true,
       productCSS: true
     });
-  }
+  });
+};
