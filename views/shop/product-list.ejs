@@ -21,7 +21,9 @@
                                 <div class="card__content">
                                     <h2 class="product__price">$
                                         <%= product.price %>
-                                    </h2>
+                                        <li class="mobile-nav__item">
+                                            <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
+                                        </li>                         </h2>
                                     <p class="product__description">
                                         <%= product.description %>
                                     </p>
