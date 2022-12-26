@@ -13,8 +13,12 @@ app.use(bodyParser.urlencoded({extended:false}));
 //this is important to serve css statically
 app.use(express.static(path.join(__dirname,'public')))
 
+const db = require('./util/database');
+
 app.set('view engine','ejs');
 app.set('views','views');
+
+db.execute('select * from products');
 
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);
