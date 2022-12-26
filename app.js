@@ -18,7 +18,13 @@ const db = require('./util/database');
 app.set('view engine','ejs');
 app.set('views','views');
 
-db.execute('select * from products');
+db.execute('select * from products')
+.then(result=>{
+   // console.log(result)
+})
+.catch(err=>{
+    console.log(err);
+});
 
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);
