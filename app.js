@@ -13,18 +13,18 @@ app.use(bodyParser.urlencoded({extended:false}));
 //this is important to serve css statically
 app.use(express.static(path.join(__dirname,'public')))
 
-const db = require('./util/database');
+const sequelize = require('./util/database');
 
 app.set('view engine','ejs');
 app.set('views','views');
 
-db.execute('select * from products')
-.then(result=>{
-   // console.log(result)
-})
-.catch(err=>{
-    console.log(err);
-});
+// db.execute('select * from products')
+// .then(result=>{
+//    // console.log(result)
+// })
+// .catch(err=>{
+//     console.log(err);
+// });
 
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);
@@ -37,6 +37,13 @@ app.use((req,res,next)=>{
     })
 })
 
-app.listen(3000); 
+    sequelize.sync().then(result=>{
+       // console.log(result);
+        app.listen(3000); 
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+
 
 
