@@ -21,18 +21,14 @@
                                 <div class="card__content">
                                     <h2 class="product__price">$
                                         <%= product.price %>
-                                        <li class="mobile-nav__item">
-                                            <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
-                                        </li>                         </h2>
+                                    </h2>
                                     <p class="product__description">
                                         <%= product.description %>
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <a href="/products/<%=product.id %>" class="btn">Details</a>
-                                    <form action="/add-to-cart" method="POST">
-                                        <button class="btn">Add to Cart</button>
-                                    </form>
+                                    <a href="/products/<%= product.id %>" class="btn">Details</a>
+                                    <%- include('../includes/add-to-cart.ejs', {product: product}) %>
                                 </div>
                             </article>
                             <% } %>
