@@ -25,6 +25,8 @@ app.use((req,res,next)=>{
 const sequelize = require('./util/database');
 const Product = require('./models/product');
 const User = require('./models/user');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -40,27 +42,37 @@ app.use((req, res, next) => {
     })
 })
 
-Product.belongsTo(User,{constraints:true , onDelete: 'CASCADE'});
+Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
+
 
 sequelize
-.sync()
-.then(result => {
+  // .sync({ force: true })
+  .sync()
+  .then(result => {
     return User.findByPk(1);
-})
-.then(user=>{
-    if(!user){
-       return User.create({name:'Max', email:'test@test.com'});
+    // console.log(result);
+  })
+  .then(user => {
+    if (!user) {
+      return User.create({ name: 'Max', email: 'test@test.com' });
     }
     return user;
-})
-.then(user=>{
-   // console.log(user);
+  })
+  .then(user => {
+    // console.log(user);
+    return user.createCart();
+  })
+  .then(cart => {
     app.listen(3000);
-})
-.catch(err => {
+  })
+  .catch(err => {
     console.log(err);
-})
+  });
 
 
 
