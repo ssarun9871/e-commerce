@@ -27,10 +27,12 @@ const Product = require('./models/product');
 const User = require('./models/user');
 const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
+const cors = require('cors');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+app.use(cors());
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(contactus);

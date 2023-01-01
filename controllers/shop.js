@@ -4,6 +4,7 @@ const Cart = require('../models/cart');
 exports.getProducts = (req, res, next) => {
   Product.findAll()
     .then(products => {
+  //    res.json(products);
       res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
@@ -20,11 +21,13 @@ exports.getProduct = (req, res, next) => {
 
   Product.findByPk(prodId)
     .then(product => {
-      res.render('shop/product-detail', {
-        product: product,
-        pageTitle: product.title,
-        path: '/products'
-      });
+      console.log(product)
+      res.json(product);
+      // res.render('shop/product-detail', {
+      //   product: product,
+      //   pageTitle: product.title,
+      //   path: '/products'
+      // });
     })
     .catch(err => console.log(err));
 };
