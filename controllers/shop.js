@@ -1,10 +1,12 @@
 const Product = require('../models/product');
 const Cart = require('../models/cart');
+const cartItem = require('../models/cart-item')
+const sequelize = require('../util/database');
+const { Sequelize } = require('sequelize');
 
 exports.getProducts = (req, res, next) => {
   Product.findAll()
     .then(products => {
-  //    res.json(products);
       res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
@@ -21,13 +23,11 @@ exports.getProduct = (req, res, next) => {
 
   Product.findByPk(prodId)
     .then(product => {
-      console.log(product)
-      res.json(product);
-      // res.render('shop/product-detail', {
-      //   product: product,
-      //   pageTitle: product.title,
-      //   path: '/products'
-      // });
+      res.render('shop/product-detail', {
+        product: product,
+        pageTitle: product.title,
+        path: '/products'
+      });
     })
     .catch(err => console.log(err));
 };
@@ -67,42 +67,18 @@ exports.getCart = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postCart = (req, res, next) => {
-  const prodId = req.body.productId;
-  let fetchedCart;
-  let newQuantity = 1;
-  req.user
-    .getCart()
-    .then(cart => {
-      fetchedCart = cart;
-      return cart.getProducts({ where: { id: prodId } });
-    })
-    .then(products => {
-      let product;
-      if (products.length > 0) {
-        product = products[0];
-      }
-
-      if (product) {
-        const oldQuantity = product.cartItem.quantity;
-        newQuantity = oldQuantity + 1;
-        return product;
-      }
-      return Product.findById(prodId);
-    })
-    .then(product => {
-      return fetchedCart.addProduct(product, {
-        through: { quantity: newQuantity }
-      });
-    })
-    .then(() => {
-      res.redirect('/cart');
-    })
-    .catch(err => console.log(err));
+exports.postCart = async (req, res, next) => {
+  const id = req.params.productId;
+  await cartItem.create({
+    prodId:id
+  })
+  Product.findByPk(id)
+  .then(item=>res.status(200).json({success:true , item:item.dataValues,msg:"successfullly added to cart"}))
+  .catch(err=>res.status(500).send(err));  
 };
 
-
-
+  
+ 
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   req.user
