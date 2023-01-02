@@ -33,7 +33,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  //findAll() is inbuilt function of "Product"
+
   Product.findAll()
   .then(products=>{
     res.render('shop/index', {
@@ -73,12 +73,33 @@ exports.postCart = async (req, res, next) => {
     prodId:id
   })
   Product.findByPk(id)
-  .then(item=>res.status(200).json({success:true , item:item.dataValues,msg:"successfullly added to cart"}))
-  .catch(err=>res.status(500).send(err));  
+  .then(item=>res.status(200).json({success:true , item:item.dataValues,msg:"added successfully to the cart!!"}))
+  .catch(err=>res.status(500).json({error:err, msg:"unable to add into cart!!"}));  
 };
 
+
+
+exports.postCartAll = async(req,res,next)=>{
+  await cartItem.findAll()
+  .then(data=>{
+    let prodIds = [];//fetching product ids from the cart table and storing it in this array
+    for(let i=0; i<data.length; i++){
+      prodIds.push(data[i].dataValues.prodId);
+    }
+    return prodIds;})
+  .then(async prodIds=>{
+    let prodInfo =[];//using the product ids from the cart we retrieve product info from product table and store it in this array
   
+    for(let i=0; i<prodIds.length; i++){
+      let data = await Product.findByPk(prodIds[i])
+      prodInfo.push(data.dataValues);
+    }
+    res.send(prodInfo)
+  })
+} 
  
+  
+  
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   req.user
@@ -102,6 +123,7 @@ exports.getOrders = (req, res, next) => {
     pageTitle: 'Your Orders'
   });
 };
+
 
 
 exports.getCheckout = (req, res, next) => {
