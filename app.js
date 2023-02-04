@@ -5,6 +5,7 @@ const path = require('path');
 const rootDir = require('./util/path');
 
 const mongoConnect = require('./util/database').mongoConnect;
+const User = require('./models/user');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -19,12 +20,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use((req,res,next)=>{
-    // User.findByPk(1)
-    // .then(user=>{
-    //     req.user = user;
-    //     next();
-    // })
-    // .catch(err=>console.log(err));
+    User.findUserbyID('63dec8ee6a07266dc77dde6f')
+    .then(user=>{
+        req.user = user;
+        next();
+    })
+    .catch(err=>console.log(err));
     next();
 })
 
