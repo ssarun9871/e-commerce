@@ -6,8 +6,11 @@ const rootDir = require('./util/path');
 
 const mongoConnect = require('./util/database').mongoConnect;
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
 const adminRoutes = require('./routes/admin')
-// const shopRoutes = require('./routes/shop');
+const shopRoutes = require('./routes/shop');
 // const contactus = require('./routes/contactus');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,19 +28,11 @@ app.use((req,res,next)=>{
     next();
 })
 
-// const sequelize = require('./util/database');
-// const Product = require('./models/product');
-// const User = require('./models/user');
-// const Cart = require('./models/cart');
-// const CartItem = require('./models/cart-item');
 const cors = require('cors');
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-
-// app.use(cors());
+app.use(cors());
 app.use('/admin', adminRoutes);
-// app.use(shopRoutes);
+app.use(shopRoutes); 
 // app.use(contactus);
 
 mongoConnect((client)=>{
@@ -52,27 +47,3 @@ app.listen(3000);
 //         path: ''
 //     })
 // })
-
-
-
-// sequelize
-//   // .sync({ force: true })
-//   .sync()
-//   .then(result => {
-//     return User.findByPk(1);
-//   })
-//   .then(user => {
-//     if (!user) {
-//       return User.create({ name: 'Max', email: 'test@test.com' });
-//     }
-//     return user;
-//   })
-//   .then(user => {
-//     return user.createCart();
-//   })
-//   .then(cart => {
-//     app.listen(3000);
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
