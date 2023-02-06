@@ -18,17 +18,7 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //this is important to serve css statically
-app.use(express.static(path.join(__dirname, 'public')))
-
-// app.use((req,res,next)=>{
-//     User.findUserbyID('63dec8ee6a07266dc77dde6f')
-//     .then(user=>{
-//         req.user = new User(user.name, user.email, user.cart, user._id);
-//         next();
-//     })
-//     .catch(err=>console.log(err));
-  
-// })
+app.use(express.static(path.join(__dirname, 'public')));
 
 const cors = require('cors');
 
